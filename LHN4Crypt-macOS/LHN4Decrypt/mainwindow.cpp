@@ -60,8 +60,9 @@ void MainWindow::on_startBtn_clicked()
         if(sslPwd!=""){
             finalCmd = sslUtils + sslCmd + sslCipher + sslMisc + " -in " + openFile +" -k " + sslPwd + " -out " + saveFile;
             //QMessageBox::information(this,"save",finalCmd);
-            const char* system_command = finalCmd.toUtf8().constData() ;
+            const char* system_command = finalCmd.toUtf8().constData() ;//解决macOS与Linux空格问题，但在Windows要换成QProcess
             system(system_command);
+            //QProcess::execute(finalCmd);//不可在macOS与Linux处理带有空格的文件
         }
         else{
             QMessageBox::critical(this, "错误", "未指定密码", QMessageBox::Yes, QMessageBox::Yes);

@@ -8,7 +8,7 @@
 
 QString openFile="";
 QString saveFile="";
-QString sslUtils="lhn4crypt.exe";
+QString sslUtils=".\\lhn4crypt.exe";
 QString sslCmd=" enc ";
 QString sslCipher=" -aes-256-cbc ";
 QString sslMisc=" -pbkdf2";
@@ -62,8 +62,12 @@ void MainWindow::on_startBtn_clicked()
         if(sslPwd!=""){
             finalCmd = sslUtils + sslCmd + sslCipher + sslMisc + " -in " + openFile + " -out " + saveFile + " -k " + sslPwd;
             //QMessageBox::information(this,"save",finalCmd);
-            const char* system_command = finalCmd.toUtf8().constData() ;
-            system(system_command);
+            //以下代码
+            //std::string str = finalCmd.toStdString();
+            //const char* system_command = str.c_str();
+            //system(system_command);
+            //会导致中文乱码
+            QProcess::execute(finalCmd);
         }
         else{
             QMessageBox::critical(this, "错误", "未指定密码", QMessageBox::Yes, QMessageBox::Yes);
